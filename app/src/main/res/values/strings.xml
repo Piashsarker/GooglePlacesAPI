@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">AndroidPlacePickerExample</string>
+    <string name="action_settings">Settings</string>
+    <string name="sorry_for_not_permission">No Service , Without Permission.</string>
+    <string name="place_id">Place ID:</string>
+    <string name="place_name">Place Name:</string>
+    <string name="place_address">Place Address :</string>
+    <string name="place_phone">Place Phone:</string>
+    <string name="place_url">Website:</string>
+    <string name="latlng">Lat Long :</string>
+    <string name="price_level">Price Level</string>
+    <string name="price_rating">Price Rating:</string>
+</resources>
