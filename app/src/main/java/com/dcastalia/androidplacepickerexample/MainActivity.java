@@ -2,6 +2,7 @@ package com.dcastalia.androidplacepickerexample;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -38,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_PLACE_PICKER = 1002 ;
     private TextView name , address , phone , placeId , webUri , latlng , priceLevel , rating  ;
     private ImageView placeImage ;
-    private GeoDataClient mGeoDataClient ;
+    private GeoDataClient mGeoDataClient;
+    private Context context ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mGeoDataClient   = Places.getGeoDataClient(this, null);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        context = MainActivity.this;
         setSupportActionBar(toolbar);
         findViews();
 
@@ -53,7 +56,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               checkPermission();
+                if(Utils.chekcGPSEnable(context)){
+                    checkPermission();
+                }else{
+                    Utils.showGPSDialog(context);
+                }
+
             }
         });
     }
@@ -135,6 +143,13 @@ public class MainActivity extends AppCompatActivity {
                        latlng.setText(lat);
                    }
 
+                   if(place.getWebsiteUri()!=null){
+                       webUri.setText(place.getWebsiteUri().toString());
+                   }
+                   if(place.getRating()!=-1){
+                       rating.setText(String.valueOf(place.getRating()));
+                   }
+
                }
             }
         }
@@ -198,12 +213,10 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
